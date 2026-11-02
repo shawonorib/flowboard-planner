@@ -7,7 +7,7 @@ export type Task = {
   title: string;
   status: Status;
   priority: Priority;
-  due?: string; // YYYY-MM-DD
+  due?: string | undefined; // YYYY-MM-DD
   createdAt: number;
 };
 
