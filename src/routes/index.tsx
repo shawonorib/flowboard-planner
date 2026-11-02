@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AppShell, PriorityDot } from "@/components/AppShell";
-import { STATUSES, taskActions, useTasks } from "@/lib/tasks";
+import { STATUSES, taskActions, useTasks, type Status } from "@/lib/tasks";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -38,9 +38,16 @@ function TasksPage() {
               className="h-5 w-5 accent-primary"
             />
             <PriorityDot p={t.priority} />
-            <span className={`flex-1 ${t.status === "done" ? "text-muted-foreground line-through" : ""}`}>{t.title}</span>
-            <span className="rounded-full bg-muted px-3 py-0.5 text-xs">{STATUSES.find((s) => s.id === t.status)?.label}</span>
-            {t.due && <span className="w-24 text-right text-sm text-muted-foreground">{t.due}</span>}
+            <input
+              defaultValue={t.title}
+              onBlur={(e) => e.target.value.trim() && taskActions.update(t.id, { title: e.target.value.trim() })}
+              onKeyDown={(e) => e.key === "Enter" && e.currentTarget.blur()}
+              className={`flex-1 rounded-md bg-transparent px-1 outline-none focus:bg-muted ${t.status === "done" ? "text-muted-foreground line-through" : ""}`}
+            />
+            <select value={t.status} onChange={(e) => taskActions.update(t.id, { status: e.target.value as Status })} className="rounded-full bg-muted px-3 py-0.5 text-xs">
+              {STATUSES.map((s) => <option key={s.id} value={s.id}>{s.label}</option>)}
+            </select>
+            <input type="date" value={t.due ?? ""} onChange={(e) => taskActions.update(t.id, { due: e.target.value || undefined })} className="rounded-md bg-transparent text-sm text-muted-foreground" />
             <button onClick={() => taskActions.remove(t.id)} className="text-sm text-muted-foreground opacity-0 hover:text-destructive group-hover:opacity-100">
               Delete
             </button>
