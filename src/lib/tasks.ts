@@ -45,7 +45,13 @@ function read(): Task[] {
 
 function write(next: Task[]) {
   cache = next;
-  localStorage.setItem(KEY, JSON.stringify(next));
+  listeners.forEach((l) => l());
+  try {
+    localStorage.setItem(KEY, JSON.stringify(next));
+  } catch {
+    // storage blocked (e.g. embedded preview) — keep working in memory
+  }
+  return;
   listeners.forEach((l) => l());
 }
 
@@ -62,7 +68,7 @@ export function useTasks() {
 
 export const taskActions = {
   add(t: Omit<Task, "id" | "createdAt">) {
-    write([...read(), { ...t, id: crypto.randomUUID(), createdAt: Date.now() }]);
+    write([...read(), { ...t, id: Date.now().toString(36) + Math.random().toString(36).slice(2), createdAt: Date.now() }]);
   },
   update(id: string, patch: Partial<Task>) {
     write(read().map((t) => (t.id === id ? { ...t, ...patch } : t)));
