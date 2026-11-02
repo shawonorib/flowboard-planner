@@ -1,24 +1,63 @@
-# Flowboard Planner
+# Flowdesk
 
-Built a Productivity App that is a productivity tool with task tracking, Kanban boards, and calendar integrations. Build it
+Flowdesk is a lightweight task planner for organizing work in a task list, a
+Kanban board, and a monthly calendar. Set priorities and due dates, move tasks
+through their workflow, and export dated tasks for use in calendar apps.
 
-This project was built with [Lovable](https://lovable.dev).
+## Project preview
 
-## Build with Lovable
+| Tasks | Board | Calendar |
+| --- | --- | --- |
+| ![Flowdesk task list preview](public/previews/tasks.png) | ![Flowdesk Kanban board preview](public/previews/board.png) | ![Flowdesk calendar preview](public/previews/calendar.png) |
 
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/797e4a6d-4b4a-4b44-bc31-fda6420486d8).
+## Features
 
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
+- **Tasks:** Add, edit, complete, and delete tasks; set a priority and optional
+  due date; view open, completed, and total task counts.
+- **Board:** Organize tasks into **To do**, **In progress**, and **Done** columns.
+  Drag a task between columns to update its status.
+- **Calendar:** Browse tasks by due date, open a task in Google Calendar, or
+  export dated tasks as an `.ics` file for calendar apps such as Apple Calendar
+  and Outlook.
+- **Local persistence:** Tasks are saved in this browser's local storage. The
+  app starts with example tasks when no saved task list exists.
 
-## Development
+There is no account or cloud sync: task data stays in the current browser and
+isn't shared between browsers or devices.
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+## Tech stack
+
+The app is built with React, TypeScript, TanStack Start and TanStack Router,
+Vite, and Tailwind CSS.
+
+## Getting started
+
+You'll need Node.js and [Bun](https://bun.sh/). From the project directory:
 
 ```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
+bun install
+bun run dev
 ```
+
+Open the local URL printed by Vite in your terminal.
+
+## Scripts
+
+| Command | Description |
+| --- | --- |
+| `bun run dev` | Start the local development server |
+| `bun run build` | Create a production build |
+| `bun run preview` | Preview the production build locally |
+| `bun run test` | Run the test suite |
+| `bun run lint` | Run ESLint |
+
+## Project structure
+
+- `src/routes/` — File-based app routes: task list (`/`), board (`/board`), and
+  calendar (`/calendar`).
+- `src/components/` — Shared app shell and UI components.
+- `src/lib/tasks.ts` — Task types, local-storage persistence, and task actions.
+- `src/test/` — Tests.
+
+The generated route tree is `src/routeTree.gen.ts`; it is maintained by the
+TanStack Router tooling.
